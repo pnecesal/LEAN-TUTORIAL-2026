@@ -38,6 +38,14 @@ example (x y z : ℝ) : 4*x^2 + 12*x*y - 4*x*z + 9*y^2 - 6*y*z + z^2 ≥ 0 := by
     nlinarith
 
 example (a b : ℝ) (ha : 0 < a) (hb : 0 < b) : 1 / a + 1 / b ≤ a / b^2 + b / a^2 := by
-  have pom : 0 ≤ (a + b)*(a - b)^2
-  · sorry
-  sorry
+  have pom1 : 0 ≤ (a + b)*(a - b)^2
+  · nlinarith
+  have pom2 : a*b^2 + a^2*b ≤  a^3 + b^3
+  · grind
+  have pom3 : (a*b^2 + a^2*b)/(a^2 * b^2) ≤ (a^3 + b^3)/(a^2 * b^2)
+  · have ha2b2 : a^2 * b^2 ≥ 0
+    · nlinarith
+    exact div_le_div_of_nonneg_right pom2 ha2b2
+  have pom4 : a*b^2 / (a^2 * b^2) + a^2*b / (a^2 * b^2) ≤ a^3 / (a^2 * b^2) + b^3 / (a^2 * b^2)
+  · grind
+  convert pom4 using 2 <;> field_simp
